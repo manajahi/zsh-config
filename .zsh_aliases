@@ -1,0 +1,338 @@
+## -*- Shell-script -*-
+
+## classical aliases
+alias ls="ls --color=auto"
+alias la="ls -Alh"
+alias ll="la"
+alias hist="history|grep "
+alias grep="grep -a --color=auto"
+alias rgrep="rgrep -a --color=auto"
+alias egrep="egrep -a --color=auto"
+
+## emacs aliases
+alias ee='emacsclient -t -a ""'
+alias ere='emacsclient -s ERC -t -a ""'
+alias ec='emacsclient -c -a ""'
+alias erc='emacsclient -s ERC -c -a ""'
+alias org="ere --eval \"(progn (org-agenda-list) (delete-other-windows))\""
+alias gnus='ere --eval "(gnus)"'
+alias erc='ere --eval "(erc-start-or-switch)"'
+
+alias die="sudo kill -9 "
+alias sollya="rlwrap sollya"
+#alias sweep="rm -f (.*~|*~|\#*)"
+alias mutt="mutt-patched"
+alias zrc="ee $ZDOTDIR/.zshrc"
+alias zalias="ee $ZDOTDIR/.zsh_aliases"
+alias ev="evince"
+
+## to silent gdb and octave on startup
+alias gdb="gdb -q"
+alias octave="octave -q"
+
+## aliases to automatically open tools
+alias -s tex=ee
+alias -s text=ee
+alias -s pdf=evince
+alias -s cpp=ee
+alias -s hpp=ee
+alias -s c=ee
+alias -s html=firefox
+alias -s org=firefox
+alias -s jpg=eog
+alias -s png=eog
+alias -s mp3=mplayer
+alias -s sh=sh
+
+(( ${+BROWSER} )) || export BROWSER="google-chrome"
+
+
+# {{{ global aliases
+# These do not have to be at the beginning of the command line.
+# Avoid typing cd ../../ for going two dirs down and so on
+# Usage, e.g.: "$ cd ...' or just '$ ...' with 'setopt auto_cd'
+alias -g '...'='../..'
+alias -g '....'='../../..'
+
+# Usage is "$ somecommand C (this pipes it into 'wc -l'):
+alias -g BG='& exit'
+alias -g C='|wc -l'
+alias -g G='|egrep -i'
+#alias -g GI='|grep -i'
+alias -g H='|head'
+alias -g Hl=' --help |& less -r'
+alias -g K='|keep'
+#alias -g L='|less'
+alias -g L='|most'
+alias -g N='&>/dev/null'
+alias -g R='| tr A-z N-za-m'
+alias -g SL='| sort | less'
+alias -g S='| sort'
+alias -g T='| tail'
+alias -g V='| vim -'
+# }}}
+
+# compile stuff
+alias CO="./configure"
+alias CH="./configure --help"
+
+# listing stuff
+alias dir="ls -lSrah"
+alias lad='ls -d .*(/)'                # only show dot-directories
+alias lsa='ls -a .*(.)'                # only show dot-files
+alias lss='ls -l *(s,S,t)'             # only files with setgid/setuid/sticky flag
+alias lsl='ls -l *(@[1,10])'           # only symlinks
+alias lsx='ls -l *(*[1,10])'           # only executables
+alias lsw='ls -ld *(R,W,X.^ND/)'       # world-{readable,writable,executable} files
+alias lsbig="ls -flh *(.OL[1,10])"     # display the biggest files
+alias lsd='ls -d *(/)'                 # only show directories
+alias lse='ls -d *(/^F)'               # only show empty directories
+alias lsnew="ls -rl *(D.om[1,10])"     # display the newest files
+alias lsold="ls -rtlh *(D.om[1,10])"   # display the oldest files
+alias lssmall="ls -Srl *(.oL[1,10])"   # display the smallest files
+
+# chmod   
+alias rw-='chmod 600'
+alias rwx='chmod 700'
+alias r--='chmod 644'
+alias r-x='chmod 755'
+
+# some useful aliases
+alias md='mkdir -p'
+
+# console stuff
+alias cmplayer='mplayer -vo fbdev'
+alias fbmplayer='mplayer -vo fbdev'
+alias fblinks='links2 -driver fb'
+
+## useful functions {{{
+
+# functions without detailed explanation:
+agoogle() { $BROWSER "http://groups.google.com/groups?as_uauthors=$*" ; }
+bk()      { cp -b ${1} ${1}_`date --iso-8601=m` }
+cdiff()   { diff -crd "$*" | egrep -v "^Only in |^Binary files " }
+cl()      { cd $1 && ls -a }        # cd && ls
+cvsa()    { cvs add $* && cvs com -m 'initial checkin' $* }
+cvsd ()   { cvs diff -N $* |& $PAGER }
+cvsl ()   { cvs log $* |& $PAGER }
+cvsq ()   { cvs -nq update }
+cvsr ()   { rcs2log $* | $PAGER }
+cvss ()   { cvs status -v $* }
+debbug () { $BROWSER "http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=$*" }
+disassemble(){ gcc -pipe -S -o - -O -g $* | as -aldh -o /dev/null }
+dwicti()  { $BROWSER http://de.wiktionary.org/wiki/${(C)1// /_} } 
+ewicti()  { $BROWSER http://en.wiktionary.org/wiki/${(C)1// /_} } 
+ggogle()  { $BROWSER "http://groups.google.com/groups?q=$*" }
+google()  { $BROWSER "http://www.google.com/search?&num=100&q=$*" }
+leo()     { $BROWSER "http://dict.leo.org/?search=$*" }
+mdiff()   { diff -udrP "$1" "$2" > diff.`date "+%Y-%m-%d"`."$1" }
+memusage(){ ps aux | awk '{if (NR > 1) print $5; if (NR > 2) print "+"} END { print "p" }' | dc }
+mggogle() { $BROWSER "http://groups.google.com/groups?selm=$*" }
+shtar()   { gunzip -c $1 | tar -tf - -- | $PAGER }
+shtgz()   { tar -ztf $1 | $PAGER }
+shzip()   { unzip -l $1 | $PAGER }
+sig()     { agrep -d '^-- $' "$*" ~/.Signature }
+udiff()   { diff -urd $* | egrep -v "^Only in |^Binary files " }
+wikifr()  { $BROWSER http://fr.wikipedia.org/wiki/"$*" }
+wikien()  { $BROWSER http://en.wikipedia.org/wiki/"$*" }
+
+# create pdf file from source code
+makereadable() {
+    output=$1
+    shift
+    a2ps --medium A4dj -E -o $output $*
+    ps2pdf $output
+}
+
+# zsh with perl-regex - use it e.g. via:
+# regcheck '\s\d\.\d{3}\.\d{3} Euro' ' 1.000.000 Euro'
+regcheck() {
+    zmodload -i zsh/pcre
+    pcre_compile $1 && \
+	pcre_match $2 && echo "regex matches" || echo "regex does not match"
+}
+# list files which have been modified within the last x days
+new() { print -l *(m-$1) }
+
+# grep the history
+greph () { history 0 | grep $1 }
+
+# one blank line between each line
+man2() { PAGER='sed G | less' /usr/bin/man $* ; }
+
+# provide useful information on globbing
+glob_help() {
+    echo -e "
+      /      directories
+      .      plain files
+      @      symbolic links
+      =      sockets
+      p      named pipes (FIFOs)
+      *      executable plain files (0100)
+      %      device files (character or block special)
+      %b     block special files
+      %c     character special files
+      r      owner-readable files (0400)
+      w      owner-writable files (0200)
+      x      owner-executable files (0100)
+      A      group-readable files (0040)
+      I      group-writable files (0020)
+      E      group-executable files (0010)
+      R      world-readable files (0004)
+      W      world-writable files (0002)
+      X      world-executable files (0001)
+      s      setuid files (04000)
+      S      setgid files (02000)
+      t      files with the sticky bit (01000)
+   print *(m-1)          # Dateien, die vor bis zu einem Tag modifiziert wurden.
+   print *(a1)           # Dateien, auf die vor einem Tag zugegriffen wurde.
+   print *(@)            # Nur Links
+   print *(Lk+50)        # Dateien die ueber 50 Kilobytes grosz sind
+   print *(Lk-50)        # Dateien die kleiner als 50 Kilobytes sind
+   print **/*.c          # Alle *.c - Dateien unterhalb von \$PWD
+   print **/*.c~file.c   # Alle *.c - Dateien, aber nicht 'file.c'
+   print (foo|bar).*     # Alle Dateien mit 'foo' und / oder 'bar' am Anfang
+   print *~*.*           # Nur Dateien ohne '.' in Namen
+   chmod 644 *(.^x)      # make all non-executable files publically readable
+   print -l *(.c|.h)     # Nur Dateien mit dem Suffix '.c' und / oder '.h'
+   print **/*(g:users:)  # Alle Dateien/Verzeichnisse der Gruppe >users<
+   echo /proc/*/cwd(:h:t:s/self//) # Analog zu >ps ax | awk '{print $1}'<"
+}
+
+help_xrandr() {
+    echo -e "
+    xrandr --output VGA1 --mode 1280x800  --left-of LVDS
+"}
+
+# Translate DE<=>EN
+# 'translate' looks up fot a word in a file with language-to-language
+# translations (field separator should be " : "). A typical wordlist looks
+# like at follows:
+#  | english-word : german-transmission
+# It's also only possible to translate english to german but not reciprocal.
+# Use the following oneliner to turn back the sort order:
+#  $ awk -F ':' '{ print $2" : "$1" "$3 }' \
+#    /usr/local/lib/words/en-de.ISO-8859-1.vok > ~/.translate/de-en.ISO-8859-1.vok
+trans() {
+    case "$1" in
+        -[dD]*) translate -l de-en $2
+            ;;
+        -[eE]*) translate -l en-de $2
+            ;;
+        *)
+            echo "Usage: $0 { -D | -E }"
+            echo "         -D == German to English"
+            echo "         -E == English to German"
+    esac
+}
+
+
+# plap foo -- list all occurrences of program in the current PATH
+plap() {
+    if [[ $# = 0 ]]
+    then
+        echo "Usage:    $0 program"
+        echo "Example:  $0 zsh"
+        echo "Lists all occurrences of program in the current PATH."
+    else
+        ls -l ${^path}/*$1*(*N)
+    fi
+}
+
+# mkdir && cd
+mcd() { mkdir -p "$@"; cd "$@" }  # mkdir && cd
+
+# cd && ls
+cl() { cd $1 && ls -a }
+
+# Use vim to convert plaintext to HTML
+2html() { vim -u NONE -n -c ':syntax on' -c ':so $VIMRUNTIME/syntax/2html.vim' -c ':wqa' $1 > /dev/null 2> /dev/null }
+
+
+folsym() {
+    if [[ -e $1 || -h $1 ]]; then
+        file=$1
+    else
+        file=`which $1`
+    fi
+    if [[ -e $file || -L $file ]]; then
+        if [[ -L $file ]]; then
+            echo `ls -ld $file | perl -ane 'print $F[7]'` '->'
+            folsym `perl -le '$file = $ARGV[0];
+$dest = readlink $file;
+if ($dest !~ m{^/}) {
+        $file =~ s{(/?)[^/]*$}{$1$dest};
+    } else {
+        $file = $dest;
+    }
+    $file =~ s{/{2,}}{/}g;
+    while ($file =~ s{[^/]+/\.\./}{}) {
+        ;
+    }
+    $file =~ s{^(/\.\.)+}{};
+    print $file' $file`
+        else
+            ls -d $file
+        fi
+    else
+        echo $file
+    fi
+}
+
+# find all suid files in $PATH
+suidfind() { ls -latg $path | grep '^...s' }
+
+# See above but this is /better/ ... anywise ..
+#  Note: Add $USER and 'find' with "NOPASSWD" in your /etc/sudoers or run it
+#        as root (UID == 0)
+findsuid() {
+    if [ UID != 0 ] ; then
+	print 'Not running as root. Trying to run via sudo...'
+	RUNASROOT=sudo
+    fi
+    print 'Output will be written to ~/suid_* ...'
+    $RUNASROOT find / -type f \( -perm -4000 -o -perm -2000 \) -ls > ~/suid_suidfiles.`date "+%Y-%m-%d"`.out 2>&1
+	$RUNASROOT find / -type d \( -perm -4000 -o -perm -2000 \) -ls > ~/suid_suiddirs.`date "+%Y-%m-%d"`.out 2>&1
+	    $RUNASROOT find / -type f \( -perm -2 -o -perm -20 \) -ls > ~/suid_writefiles.`date "+%Y-%m-%d"`.out 2>&1
+		$RUNASROOT find / -type d \( -perm -2 -o -perm -20 \) -ls > ~/suid_writedirs.`date "+%Y-%m-%d"`.out 2>&1
+		    print 'Finished'
+}
+
+# Reload functions.
+refunc() {
+    for func in $argv
+    do
+        unfunction $func
+        autoload $func
+    done
+}
+
+# generate thumbnails ;)
+genthumbs () {
+    rm -rf thumb-* index.html
+    echo "
+   <html>
+   <head>
+   <title>Images</title>
+   </head>
+   <body>" > index.html
+    for f in *.(gif|jpeg|jpg|png)
+    do
+	convert -size 100x200 "$f" -resize 100x200 thumb-"$f"
+	echo "    <a href=\"$f\"><img src=\"thumb-$f\"></a>" >> index.html
+    done
+    echo "
+   </body>
+   </html>" >> index.html
+}
+
+# unset all limits (see zshbuiltins(1) /ulimit for details)
+allulimit() {
+    ulimit -c unlimited
+    ulimit -d unlimited
+    ulimit -f unlimited
+    ulimit -l unlimited
+    ulimit -n unlimited
+    ulimit -s unlimited
+    ulimit -t unlimited
+}

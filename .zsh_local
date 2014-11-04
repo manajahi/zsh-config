@@ -1,0 +1,28 @@
+## location dependant aliases and variables
+
+# Add /sbin to the path,
+# it is not the default in Debian 
+export PATH="$PATH:/sbin"
+
+export PATH="$PATH:/usr/local/MATLAB/R2010b/bin"
+export PATH="$PATH:/usr/local/MATLAB/R2010b/bin"
+export PATH="$PATH:/home/amine/altera/12.1sp1/quartus/bin"
+export PATH="$PATH:/home/amine/Downloads/compilers/icc/bin"
+export PATH="$PATH:/home/amine/.pclint9/.lint_tools"
+export PATH="$PATH:/home/amine/.wine/drive_c/RegexBuddy 3"
+export PATH="$PATH:/usr/local/heroku/bin"
+export MATLAB_JAVA="/usr/lib/jvm/java-6-openjdk-amd64/jre"
+
+alias cdd="cd /home/amine/Documents/cgpe_svn/trunk/src"
+alias cddoc="cd /home/amine/Documents/documentations"
+alias cdref="cd /home/amine/Documents/svn_these/references"
+alias cdtests="cd /home/amine/Documents/tests"
+alias cdlob="cd /home/amine/Documents/my_svn_docs"
+alias cdfp="cd /home/amine/Documents/lirmm_svn/fpla/trunk/src"
+alias cdthese="cd /home/amine/Documents/svn_these"
+
+# Set so that gcclint and g++lint find their executable
+export PCLINT_PATH="/home/amine/.pclint9/DOS-ins"
+
+# for rails
+source ~/.rvm/scripts/rvm
