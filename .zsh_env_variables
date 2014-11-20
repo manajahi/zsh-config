@@ -1,8 +1,8 @@
 ## Some environnement variables
 
 # My editors
-export SVN_EDITOR="ere"
-export EDITOR="ere"
+export SVN_EDITOR="emacsclient -t"
+export EDITOR="emacsclient -t"
 
 # if the output is piped, do not color
 export NOCOLOR_PIPE=1
