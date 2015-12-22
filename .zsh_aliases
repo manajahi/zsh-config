@@ -12,7 +12,7 @@ alias egrep="egrep -a --color=auto"
 ## emacs aliases
 alias ee='emacsclient -t -a ""'
 alias ere='emacsclient -s ERC -t -a ""'
-alias ec='emacsclient -s ERC -c -a ""'
+alias ec='emacsclient -c -a ""'
 alias erc='emacsclient -s ERC -c -a ""'
 alias org="ere --eval \"(progn (org-agenda-list) (delete-other-windows))\""
 alias gnus='ere --eval "(gnus)"'
