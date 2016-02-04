@@ -12,3 +12,6 @@ export LC_TIME=en_DK.UTF-8
 
 # to get coloring for manpages
 export PAGER=most
+
+# jump to my cv directory
+alias cv='cd /home/amine/Documents/administratifs/cv && ll'

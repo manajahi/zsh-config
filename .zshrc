@@ -1,3 +1,9 @@
+# oh-my-zsh stuff
+export ZSH=$HOME/.oh-my-zsh
+ZSH_THEME="amine"
+source $ZSH/oh-my-zsh.sh
+plugins=(git)
+
 # Handle coloring
 autoload -U colors && colors
 
