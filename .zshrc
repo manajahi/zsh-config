@@ -1,8 +1,9 @@
 # oh-my-zsh stuff
-export ZSH=$HOME/.oh-my-zsh
+export ZSH=$HOME/zsh/.oh-my-zsh
 ZSH_THEME="amine"
+plugins=(git history-substring-search)
 source $ZSH/oh-my-zsh.sh
-plugins=(git)
+
 
 # Handle coloring
 autoload -U colors && colors
@@ -50,14 +51,15 @@ autoload -U zstyle+
 autoload -Uz promptinit
 promptinit
 
-# my prompt
-# export PS1="[%{$fg[red]%}%n%{$reset_color%}@%{$fg[magenta]%}%m%{$reset_color%}:%{$fg[cyan]%}%~%{$reset_color%}]$ "
-
 # Use emacs keybindings
 bindkey -e
 bindkey "^[[1;5C" forward-word
 bindkey "^[[1;5D" backward-word
 bindkey "^@" set-mark-command
+
+# bind P and N for searching history
+bindkey '^P' history-substring-search-up
+bindkey '^N' history-substring-search-down
 
 # # to tab backwards
 bindkey '^[[Z' reverse-menu-complete

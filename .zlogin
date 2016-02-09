@@ -16,7 +16,7 @@ fi
 
 
 #forcing xmodmap
-if [ -n "${DISPLAY+x}" ]; then
-    xmodmap $HOME/.xmodmap
-fi
+# if [ -n "${DISPLAY+x}" ]; then
+#     xmodmap $HOME/.xmodmap
+# fi
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*

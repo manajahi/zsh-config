@@ -22,7 +22,7 @@ alias die="sudo kill -9 "
 alias sollya="rlwrap sollya"
 #alias sweep="rm -f (.*~|*~|\#*)"
 alias mutt="mutt-patched"
-alias zrc="ee $ZDOTDIR/.zshrc"
+alias zrc="ec $ZDOTDIR/.zshrc"
 alias zalias="ee $ZDOTDIR/.zsh_aliases"
 alias ev="evince"
 
