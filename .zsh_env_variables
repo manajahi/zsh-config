@@ -8,10 +8,18 @@ export EDITOR="emacsclient -t"
 export NOCOLOR_PIPE=1
 
 # to get a nice order in calendars (icedove)
-export LC_TIME=en_DK.UTF-8
+#export LC_TIME=en_DK.UTF-8
 
 # to get coloring for manpages
-export PAGER=most
+export PAGER=less
 
 # jump to my cv directory
 alias cv='cd /home/amine/Documents/administratifs/cv && ll'
+
+export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
+export PATH="$PATH:/usr/local/MATLAB/R2016b/bin" # Add MATLAB to PATH
+
+# needed by MATLAB
+export MATLAB_SHELL=/bin/bash
+
+export SHELL=/usr/bin/zsh

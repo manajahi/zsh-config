@@ -1,5 +1,5 @@
 # oh-my-zsh stuff
-export ZSH=$HOME/zsh/.oh-my-zsh
+export ZSH=$HOME/zsh/oh-my-zsh
 ZSH_THEME="amine"
 plugins=(git history-substring-search)
 source $ZSH/oh-my-zsh.sh
@@ -122,12 +122,22 @@ zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;31'
 zstyle ':completion:*:kill:*' command 'ps -u $USER -o pid,%cpu,tty,cputime,cmd'
 
 # to have the colors as output of ls
-eval `dircolors ~/.dircolors`
+eval `dircolors -b ~/.dircolors`
 
 # completion of apt-get
-source /etc/zsh_command_not_found
+#source /etc/zsh_command_not_found
 
 #load my stuff
 for file in $ZDOTDIR/zsh_stuff/*.zsh
-source $file
-export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
+    source $file
+
+
+PROMPT_COMMAND='pwd > "${HOME}/.cwd"'
+SCRIPT='sh ~/zsh/cd_script.sh'
+cd-script_widget() {
+    eval "$PROMPT_COMMAND"
+    eval "$SCRIPT"
+}
+zle -N cd-script_widget
+#the following is the binding for Mod4-d (AltGr-d)
+bindkey 'ð' cd-script_widget
